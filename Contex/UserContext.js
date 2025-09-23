@@ -1,4 +1,5 @@
 import { createContext, useEffect, useState } from "react";
+import { Alert } from "react-native";
 
 export const UserContext = createContext(null);
 
@@ -20,8 +21,13 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     const addToFavorite = (user) => {
-        const updateFavorite = [...favorite, user]
-        setFavorite(updateFavorite)
+        if (!favorite.find(fav => fav.id === user.id)) {
+            Alert.alert('profile added')
+            setFavorite([...favorite, user])
+          }
+        
+        // const updateFavorite = [...favorite, user]
+        // setFavorite(updateFavorite)
     }
 
     return (
