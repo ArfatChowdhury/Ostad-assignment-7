@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 
@@ -20,18 +21,55 @@ export const UserProvider = ({ children }) => {
         fetchAllUsers();
     }, []);
 
-    const addToFavorite = (user) => {
-        if (!favorite.find(fav => fav.id === user.id)) {
-            Alert.alert('profile added')
-            setFavorite([...favorite, user])
-          }
-        
-        // const updateFavorite = [...favorite, user]
-        // setFavorite(updateFavorite)
+    const addToFavorite = async (user) => {
+        try {
+            if (!favorite.find(fav => fav.id === user.id)) {
+                Alert.alert('profile added')
+                const updatedFavorites = [...favorite, user]
+                setFavorite(updatedFavorites)
+                await AsyncStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+                Alert.alert('Profile Added', `${user.name} is added to the favorite list`)
+            } else {
+                Alert.alert('user already added')
+            }
+
+        } catch (err) {
+            console.log(err);
+
+        }
     }
 
+    const removeFav =async(userId)=>{
+        try{
+            const updatedFav = favorite.filter(fav => fav.id !== userId)
+            setFavorite(updatedFav)
+            await AsyncStorage.setItem('favorites', JSON.stringify(updatedFav))
+            Alert.alert('Removed', 'User removed from favorites!');
+        }catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    useEffect(() => {
+        const getFavData = async () => {
+            try {
+                const FavData = await AsyncStorage.getItem('favorites')
+                if(FavData !== null){
+                    setFavorite(JSON.parse(FavData))
+                }
+            }catch(err){
+                console.log(err);
+                
+            }
+        }
+        getFavData()
+    }, [])
+
+
+
     return (
-        <UserContext.Provider value={{ allUsers, addToFavorite, favorite }}>
+        <UserContext.Provider value={{ allUsers, addToFavorite, favorite, removeFav }}>
             {children}
         </UserContext.Provider>
     );

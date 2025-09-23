@@ -1,10 +1,10 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useContext } from 'react'
 import { UserContext } from '../Contex/UserContext'
 
 
 const FavoriteScreen = () => {
-    const { favorite } = useContext(UserContext)
+    const { favorite, removeFav } = useContext(UserContext)
     return (
         <View style={styles.container}>
             <Text>FavoriteScreen</Text>
@@ -15,6 +15,9 @@ const FavoriteScreen = () => {
                     <View>
                         <Text>{item.name}</Text>
                         <Text>{item.email}</Text>
+                        <TouchableOpacity onPress={()=>removeFav(item.id)}>
+                            <Text>remove</Text>
+                        </TouchableOpacity>
                     </View>
                 )}
             />)
