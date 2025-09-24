@@ -1,7 +1,8 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
+import { Ionicons } from '@expo/vector-icons'
 
-const UserProfile = ({ user,addToFavorite }) => {
+const UserProfile = ({ user,addToFavorite , isFavorite}) => {
   if (!user) return null;
   return (
     <View style={styles.card}>
@@ -10,8 +11,21 @@ const UserProfile = ({ user,addToFavorite }) => {
       {!!user.phone && <Text style={styles.phone}>{user.phone}</Text>}
       {!!user.website && <Text style={styles.website}>{user.website}</Text>}
       <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.favButton} onPress={()=>addToFavorite(user)}>
-      <Text style={styles.btnText}>Add to favorite</Text>
+      <TouchableOpacity 
+        style={[
+          styles.favButton, 
+          isFavorite ? styles.favoritedButton : styles.notFavoritedButton
+        ]} 
+        onPress={() => addToFavorite(user)}
+      >
+        <Ionicons 
+          name={isFavorite ? "star" : "star-outline"} 
+          size={16} 
+          color={isFavorite ? "gold" : "white"} 
+        />
+        <Text style={styles.btnText}>
+          {isFavorite ? "Added to Favorites" : "Add to Favorite"}
+        </Text>
       </TouchableOpacity>
       </View>
     </View>
@@ -66,5 +80,11 @@ const styles = StyleSheet.create({
       color:'white',
       fontSize:12,
       fontWeight:'bold'
-    }
+    },
+    notFavoritedButton: {
+      backgroundColor: '#007AFF',
+    },
+    favoritedButton: {
+      backgroundColor: '#34C759',
+    },
 })

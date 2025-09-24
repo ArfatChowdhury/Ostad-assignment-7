@@ -4,7 +4,7 @@ import { UserContext } from '../Contex/UserContext'
 
 
 const FavoriteScreen = () => {
-    const { favorite, removeFav } = useContext(UserContext)
+    const { favorite = [], removeFav } = useContext(UserContext) || {}
     return (
         <View style={styles.container}>
             { favorite.length === 0 ? (

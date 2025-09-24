@@ -4,7 +4,7 @@ import { UserContext } from '../Contex/UserContext'
 import UserProfile from '../Components/UserProfile'
 
 const HomeScreen = () => {
-  const { allUsers, addToFavorite } = useContext(UserContext) || {}
+  const { allUsers, addToFavorite, favorite } = useContext(UserContext) || {}
 
   return (
     <View style={styles.container}>
@@ -12,7 +12,9 @@ const HomeScreen = () => {
         data={allUsers }
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => (
-          <UserProfile user={item} addToFavorite={addToFavorite} />
+          <UserProfile user={item} 
+           addToFavorite={addToFavorite}
+           isFavorite={Boolean(favorite?.some((fav) => fav.id === item.id))} />
         )}
         
       />
