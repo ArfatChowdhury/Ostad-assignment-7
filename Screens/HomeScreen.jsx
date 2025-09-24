@@ -14,12 +14,7 @@ const HomeScreen = () => {
         renderItem={({ item }) => (
           <UserProfile user={item} addToFavorite={addToFavorite} />
         )}
-        contentContainerStyle={{ paddingVertical: 12 }}
-        ListEmptyComponent={() => (
-          <View style={styles.center}>
-            <Text>No users found.</Text>
-          </View>
-        )}
+        
       />
     </View>
   )

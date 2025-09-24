@@ -9,9 +9,11 @@ const UserProfile = ({ user,addToFavorite }) => {
       {!!user.email && <Text style={styles.email}>{user.email}</Text>}
       {!!user.phone && <Text style={styles.phone}>{user.phone}</Text>}
       {!!user.website && <Text style={styles.website}>{user.website}</Text>}
-      <TouchableOpacity onPress={()=>addToFavorite(user)}>
-      <Text>Add to favorite</Text>
+      <View style={styles.buttonContainer}>
+      <TouchableOpacity style={styles.favButton} onPress={()=>addToFavorite(user)}>
+      <Text style={styles.btnText}>Add to favorite</Text>
       </TouchableOpacity>
+      </View>
     </View>
   )
 }
@@ -48,4 +50,21 @@ const styles = StyleSheet.create({
       marginTop: 2,
       color: '#3366cc',
     },
+    favButton:{
+      paddingVertical:15,
+      paddingHorizontal:20,
+      backgroundColor: '#007AFF',
+      borderRadius:10,
+      alignItems:'center',
+      justifyContent:'center'
+    },
+    buttonContainer: {
+      alignSelf: 'flex-end', 
+      marginTop: 10,
+    },
+    btnText:{
+      color:'white',
+      fontSize:12,
+      fontWeight:'bold'
+    }
 })
